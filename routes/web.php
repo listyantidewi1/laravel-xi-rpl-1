@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,17 +40,17 @@ $posts = [
 ];
 
 //route view
-Route::get('/post', function () {
-    return view('posts.index');
-})->name('posts.index');
+// Route::get('/post', function () {
+//     return view('posts.index');
+// })->name('posts.index');
 
 
-//route dengan parameter
-Route::get('/post/{id}', function ($id) use ($posts) {
-    //helper function, utk mendeteksi id yg tidak terdaftar
-    abort_if(!isset($posts[$id]), 404);
-    return view('posts.show', ['post' => $posts[$id]]);
-})->name('posts.show');
+// //route dengan parameter
+// Route::get('/post/{id}', function ($id) use ($posts) {
+//     //helper function, utk mendeteksi id yg tidak terdaftar
+//     abort_if(!isset($posts[$id]), 404);
+//     return view('posts.show', ['post' => $posts[$id]]);
+// })->name('posts.show');
 
 //route dengan nilai default / route opsional
 //parameter {days_ago} tidak wajib diisi, jika tidak diisi, maka nilainya default = 20
@@ -64,3 +65,5 @@ Route::get('/', function () {
 Route::get('/contact', function () {
     return view('home.contact');
 })->name('home.contact');
+
+Route::resource('posts', PostController::class)->only('index', 'show', 'create', 'store');
